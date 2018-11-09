@@ -1,6 +1,7 @@
 package com.cookingapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -116,8 +117,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
         if(v == bBack){
             //will open login activity
-//            Intent intent = new Intent(Register.this, LoginActivety.class);
-//            startActivity(intent);
+            Intent intent = new Intent(Register.this, LoginActivety.class);
+            startActivity(intent);
         }
     }
 }
