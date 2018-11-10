@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
@@ -28,6 +31,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     private Button bBack;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+
+    private DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         bBack = findViewById(R.id.bBack);
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         bRegister.setOnClickListener(this);
         bBack.setOnClickListener(this);
@@ -96,6 +103,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                 //now disply
                                 Toast.makeText(Register.this, "Registered Successfully", Toast.LENGTH_LONG).show();
                                 progressDialog.dismiss();
+                                saveUserInformation();
                             } else {
                                 Toast.makeText(Register.this, "Registered problem, Please try again", Toast.LENGTH_LONG).show();
                             }
@@ -108,12 +116,22 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    private void saveUserInformation() {
+        String name = etUserName.getText().toString().trim();
+        String pass = etPassword.getText().toString().trim();
+
+        UserInformation userInformation = new UserInformation(name, pass);
+        FirebaseUser user =firebaseAuth.getCurrentUser();
+        databaseReference.child("user").child(user.getUid()).setValue(userInformation);
+        Toast.makeText(this,"information saved...",Toast.LENGTH_LONG).show();
+    }
 
 
     @Override
     public void onClick(View v) {
         if(v == bRegister){
             registerUser();
+
         }
         if(v == bBack){
             //will open login activity
