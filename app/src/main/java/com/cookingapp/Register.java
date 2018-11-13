@@ -1,7 +1,6 @@
 package com.cookingapp;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
+    private EditText etNName;
     private EditText etUserName;
     private EditText etPassword;
     private EditText etCPassword;
@@ -39,6 +39,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
 
+        etNName =findViewById(R.id.etNName);
         etUserName = findViewById(R.id.etUserName);
         etPassword = findViewById(R.id.etPassword);
         etCPassword = findViewById(R.id.etCPassword);
@@ -54,13 +55,20 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     //something happened after click register
     private void registerUser(){
+        String NName = etNName.getText().toString().trim();
         String userName = etUserName.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String Cpassword = etCPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty( userName )){
+        if (TextUtils.isEmpty( NName )){
             // userName is empty
             Toast.makeText(this,"Please enter a UserName", Toast.LENGTH_SHORT).show();
+            //stopping the function execution further
+            return;
+        }
+        if (TextUtils.isEmpty( userName )){
+            // userName is empty
+            Toast.makeText(this,"Please enter a Email", Toast.LENGTH_SHORT).show();
             //stopping the function execution further
             return;
         }
@@ -80,47 +88,57 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         //if valid are ok,
         //show progressBar
-        progressDialog.setMessage("Registering User...");
-        progressDialog.show();
-        if (Cpassword.equals(password))  {
-            firebaseAuth.createUserWithEmailAndPassword(userName, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("FirebaseAuth", "createUserWithEmail:onComplete:" + task.isSuccessful());
-                            //                        if (!task.isSuccessful()) {
-                            //                            Log.d("FirebaseAuth", "onComplete: Failed=" + task.getException().getMessage()); //ADD THIS
-                            //
-                            //                            Toast.makeText(Register.this, "auth_failed",
-                            //                                    Toast.LENGTH_SHORT).show();
-                            //                        }
-
-                            //Log.d("FirebaseAuth", "onComplete" + task.getException().getMessage());
-                            if (task.isSuccessful()) {
-                                Log.d("FirebaseAuth", "onComplete: Successfully"); //ADD THIS
-                                //register succeed and logged in
-                                //start profile activity here
-                                //now disply
-                                Toast.makeText(Register.this, "Registered Successfully", Toast.LENGTH_LONG).show();
-                                progressDialog.dismiss();
-                                saveUserInformation();
-                            } else {
-                                Toast.makeText(Register.this, "Registered problem, Please try again", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-        }
-        else{
-            progressDialog.dismiss();
+//        progressDialog.setMessage("Registering User...");
+//        progressDialog.show();
+        if(!Cpassword.equals(password)){
             Toast.makeText(Register.this, "Please enter your Password and confirm it again.", Toast.LENGTH_LONG).show();
+            return;
         }
-    }
+ //       Query query = FirebaseDatabase.getInstance().getReference().child("user").orderByChild("userName").equalTo(NName);
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String userName = etNName.getText().toString().trim();
+//                String password = etPassword.getText().toString().trim();
+//                if(dataSnapshot.getValue() !=null){
+//                    Toast.makeText(Register.this, "User name is used.Please enter another Name.", Toast.LENGTH_LONG).show();
+//                    startActivity(new Intent(getApplicationContext(),Register.class));
+//
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
 
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(userName,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.d("FirebaseAuth", "createUserWithEmail:onComplete:" + task.isSuccessful());
+                if (task.isSuccessful()) {
+                    Log.d("FirebaseAuth", "onComplete: Successfully"); //ADD THIS
+                    //register succeed and logged in
+                    //start profile activity here
+                    //now disply
+                    Toast.makeText(Register.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                    saveUserInformation();
+                }
+                else {
+                    Toast.makeText(Register.this, "Registered problem, Please try another email", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+        });
+
+
+    }
     private void saveUserInformation() {
-        String name = etUserName.getText().toString().trim();
+        String name = etNName.getText().toString().trim();
+        String email = etUserName.getText().toString().trim();
         String pass = etPassword.getText().toString().trim();
 
-        UserInformation userInformation = new UserInformation(name, pass);
+        UserInformation userInformation = new UserInformation(name, email, pass);
         FirebaseUser user =firebaseAuth.getCurrentUser();
         databaseReference.child("user").child(user.getUid()).setValue(userInformation);
         Toast.makeText(this,"information saved...",Toast.LENGTH_LONG).show();
@@ -135,11 +153,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
         if(v == bBack){
             //will open login activity
-            Intent intent = new Intent(Register.this, LoginActivety.class);
-            startActivity(intent);
+     //       Intent intent = new Intent(Register.this, LoginActivety.class);
+      //      startActivity(intent);
         }
     }
 }
+
 
 
 
