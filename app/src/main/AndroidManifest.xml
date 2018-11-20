@@ -3,6 +3,7 @@
     package="com.cookingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,14 +12,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Register">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewRecipesActivity"></activity>
+        <activity android:name=".Register" />
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".RecipeDetailActivity" />
+        <activity android:name=".SearchForAllActivity" />
+        <activity android:name=".NewRecipesActivity" />
+        <activity android:name=".SearchForOneActivity" />
+        <activity android:name=".SaveImageActivity" />
     </application>
 
 </manifest>
