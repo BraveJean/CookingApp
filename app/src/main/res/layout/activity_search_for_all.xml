@@ -7,7 +7,7 @@
     tools:context=".SearchForAllActivity">
 
     <EditText
-        android:id="@+id/recipesNameText"
+        android:id="@+id/recipeNameText"
         android:layout_width="258dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/textViewGoBack"
         android:layout_width="130dp"
-        android:layout_height="20dp"
+        android:layout_height="43dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="40dp"
@@ -45,6 +45,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
         android:text="Go Back"
+        android:textSize="20sp"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,12 +58,10 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewForAll"
         android:layout_width="368dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="43dp"
+        android:layout_height="450dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipesNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/recipeNameText" />
 
 </android.support.constraint.ConstraintLayout>

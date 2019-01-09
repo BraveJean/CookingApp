@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +19,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SearchForAllActivity extends AppCompatActivity {
 
@@ -45,17 +44,17 @@ public class SearchForAllActivity extends AppCompatActivity {
         goBack = findViewById(R.id.textViewGoBack);
         recyclerView = findViewById(R.id.recyclerViewForAll);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recipesNameText = findViewById(R.id.recipesNameText);
+        recipesNameText = findViewById(R.id.recipeNameText);
 
         Bundle bundle = this.getIntent().getExtras();
-        String recipeNameBudle = bundle.getString("recipeName");
-        recipesNameText.setText(recipeNameBudle);
+        String recipeNameBundle = bundle.getString("recipeName");
+        recipesNameText.setText(recipeNameBundle);
 
 
-        if (recipeNameBudle == null || "".equals(recipeNameBudle)) {
+        if (recipeNameBundle == null || "".equals(recipeNameBundle)) {
             selectAllRecipes();
         } else {
-            selectRecipesByName(recipeNameBudle);
+            selectRecipesByName(recipeNameBundle);
         }
 
 
@@ -80,8 +79,8 @@ public class SearchForAllActivity extends AppCompatActivity {
                 Intent intent=new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("recipeName",recipeNameString);
-                intent.putExtras(bundle);//设置参数,""
-                intent.setClass(SearchForAllActivity.this, MenuActivity.class);//从哪里跳到哪里
+                intent.putExtras(bundle);
+                intent.setClass(SearchForAllActivity.this, MenuActivity.class);
                 startActivity(intent);
             }
         });
@@ -89,7 +88,7 @@ public class SearchForAllActivity extends AppCompatActivity {
 
     public void selectAllRecipes(){
         recInfoList = new ArrayList<RecipesInfo>();
-        Query query = FirebaseDatabase.getInstance().getReference().child("Recipes");
+        Query query = FirebaseDatabase.getInstance().getReference().child("Recipes").orderByChild("rating");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -103,6 +102,7 @@ public class SearchForAllActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             UserInformation userInfo = dataSnapshot.getValue(UserInformation.class);
                             info.setUserName(userInfo.getEmail());
+                            adapter.flag = "1";
                             recyclerView.setAdapter(adapter);
 
                         }
@@ -114,8 +114,10 @@ public class SearchForAllActivity extends AppCompatActivity {
                     });
                     recInfoList.add(info);
                 }
+                Collections.reverse(recInfoList);
                 adapter = new MyAdapter(SearchForAllActivity.this, recInfoList);
                 if(recInfoList.size() == 0){
+                    adapter.flag = "1";
                     recyclerView.setAdapter(adapter);
                 }
 
@@ -130,9 +132,9 @@ public class SearchForAllActivity extends AppCompatActivity {
     }
 
 
-    public void selectRecipesByName(String name){
+    public void selectRecipesByName(final String name){
         recInfoList = new ArrayList<RecipesInfo>();
-        Query query = FirebaseDatabase.getInstance().getReference().child("Recipes").orderByChild("recipeName").startAt(name).endAt(name+"\uf8ff");
+        Query query = FirebaseDatabase.getInstance().getReference().child("Recipes").orderByChild("ingredient");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -140,25 +142,31 @@ public class SearchForAllActivity extends AppCompatActivity {
                     final RecipesInfo info = dataSnapshot1.getValue(RecipesInfo.class);
                     info.setRecipeId(dataSnapshot1.getKey());
                     uid  = info.getUserId();
-                    mReference = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
-                    mReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            UserInformation userInfo = dataSnapshot.getValue(UserInformation.class);
-                            info.setUserName(userInfo.getEmail());
-                            recyclerView.setAdapter(adapter);
+                    String recName = info.getIngredient();
+                    int i = recName.indexOf(name);
+                    if(i >= 0){
+                        mReference = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
+                        mReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                UserInformation userInfo = dataSnapshot.getValue(UserInformation.class);
+                                info.setUserName(userInfo.getEmail());
+                                adapter.flag = "1";
+                                recyclerView.setAdapter(adapter);
 
-                        }
+                            }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
-                    recInfoList.add(info);
+                            }
+                        });
+                        recInfoList.add(info);
+                    }
                 }
                 adapter = new MyAdapter(SearchForAllActivity.this, recInfoList);
                 if(recInfoList.size() == 0){
+                    adapter.flag = "1";
                     recyclerView.setAdapter(adapter);
                 }
             }

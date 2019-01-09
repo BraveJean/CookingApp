@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,23 +42,11 @@ public class SearchForOneActivity extends AppCompatActivity{
         goBack = findViewById(R.id.textViewGoBack);
         recyclerView = findViewById(R.id.recyclerViewForOne);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recipesNameText = findViewById(R.id.recipesNameText);
+        recipesNameText = findViewById(R.id.recipeNameText);
+        FirebaseUser user =FirebaseAuth.getInstance().getCurrentUser();
+        uid= user.getUid();
 
-        Bundle bundle = this.getIntent().getExtras();
-        String recipeNameBudle = bundle.getString("recipeName");
-        String isButton = bundle.getString("isButton");
-        recipesNameText.setText(recipeNameBudle);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        uid = user.getUid();
-
-        if (recipeNameBudle == null || "".equals(recipeNameBudle)) {
-            selectAllRecipes();
-        } else {
-
-            selectRecipesByName(recipeNameBudle);
-        }
-
+        selectAllRecipes();
 
         buttonSearcn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,11 +64,7 @@ public class SearchForOneActivity extends AppCompatActivity{
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recipeNameString = recipesNameText.getText().toString();
                 Intent intent=new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putString("recipeName",recipeNameString);
-                intent.putExtras(bundle);
                 intent.setClass(SearchForOneActivity.this, MenuActivity.class);
                 startActivity(intent);
             }
@@ -104,6 +87,7 @@ public class SearchForOneActivity extends AppCompatActivity{
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             UserInformation userInfo = dataSnapshot.getValue(UserInformation.class);
                             info.setUserName(userInfo.getEmail());
+                            adapter.flag = "0" ;
                             recyclerView.setAdapter(adapter);
 
                         }
@@ -117,6 +101,7 @@ public class SearchForOneActivity extends AppCompatActivity{
                 }
                 adapter = new MyAdapter(SearchForOneActivity.this, recInfoList);
                 if(recInfoList.size() == 0){
+                    adapter.flag ="0";
                     recyclerView.setAdapter(adapter);
                 }
 
@@ -140,7 +125,7 @@ public class SearchForOneActivity extends AppCompatActivity{
                 for (DataSnapshot dataSnapshot1 :  dataSnapshot.getChildren()){
                     final RecipesInfo info = dataSnapshot1.getValue(RecipesInfo.class);
                     info.setRecipeId(dataSnapshot1.getKey());
-                    String recName = info.getRecipeName();
+                    String recName = info.getIngredient();
                     int i = recName.indexOf(name);
                     if(i >= 0){
                         mReference = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
@@ -149,6 +134,7 @@ public class SearchForOneActivity extends AppCompatActivity{
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 UserInformation userInfo = dataSnapshot.getValue(UserInformation.class);
                                 info.setUserName(userInfo.getEmail());
+                                adapter.flag ="0";
                                 recyclerView.setAdapter(adapter);
 
                             }
@@ -163,6 +149,7 @@ public class SearchForOneActivity extends AppCompatActivity{
                 }
                 adapter = new MyAdapter(SearchForOneActivity.this,recInfoList);
                 if(recInfoList.size() == 0){
+                    adapter.flag ="0";
                     recyclerView.setAdapter(adapter);
                 }
 

@@ -4,4 +4,6 @@
     <string name="userName">UserName: </string>
     <string name="check">Check Details</string>
     <string name="delete">Delete</string>
+    <string name="title_activity_add_comment">AddCommentActivity</string>
+
 </resources>

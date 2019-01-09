@@ -9,11 +9,12 @@ public class RecipesInfo {
     private String video;
     private String steps;
     private String ingredient;
+    private String rating;
 
     public RecipesInfo() {
     }
 
-    public RecipesInfo(String recipeName, String recipeId, String userId, String userName, String image, String video, String steps, String ingredient) {
+    public RecipesInfo(String recipeName, String recipeId, String userId, String userName, String image, String video, String steps, String ingredient, String rating) {
         this.recipeName = recipeName;
         this.recipeId = recipeId;
         this.userId = userId;
@@ -22,7 +23,21 @@ public class RecipesInfo {
         this.video = video;
         this.steps = steps;
         this.ingredient = ingredient;
+        this.rating = rating;
     }
+
+    public RecipesInfo(String recipeName, String recipeId, String userId, String image, String video, String steps, String ingredient, String rating) {
+        this.recipeName = recipeName;
+        this.recipeId = recipeId;
+        this.userId = userId;
+        this.image = image;
+        this.video = video;
+        this.steps = steps;
+        this.ingredient = ingredient;
+        this.rating = rating;
+    }
+
+
 
     public RecipesInfo(String image) {
         this.image = image;
@@ -90,5 +105,13 @@ public class RecipesInfo {
 
     public void setIngredient(String ingredient) {
         this.ingredient = ingredient;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }
