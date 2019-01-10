@@ -1,14 +1,15 @@
 package com.cookingapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,8 +28,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     private EditText etPassword;
     private EditText etCPassword;
 
-    private Button bRegister;
-    private Button bBack;
+    private TextView bRegister;
+    private TextView bBack;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
@@ -88,28 +89,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         //if valid are ok,
         //show progressBar
-//        progressDialog.setMessage("Registering User...");
-//        progressDialog.show();
         if(!Cpassword.equals(password)){
             Toast.makeText(Register.this, "Please enter your Password and confirm it again.", Toast.LENGTH_LONG).show();
             return;
         }
- //       Query query = FirebaseDatabase.getInstance().getReference().child("user").orderByChild("userName").equalTo(NName);
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                String userName = etNName.getText().toString().trim();
-//                String password = etPassword.getText().toString().trim();
-//                if(dataSnapshot.getValue() !=null){
-//                    Toast.makeText(Register.this, "User name is used.Please enter another Name.", Toast.LENGTH_LONG).show();
-//                    startActivity(new Intent(getApplicationContext(),Register.class));
-//
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(userName,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -142,6 +125,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         FirebaseUser user =firebaseAuth.getCurrentUser();
         databaseReference.child("user").child(user.getUid()).setValue(userInformation);
         Toast.makeText(this,"information saved...",Toast.LENGTH_LONG).show();
+        Intent intent =new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("address", email);
+        intent.putExtras(bundle);
+        intent.setClass(Register.this,LoginActivity.class);
+        startActivity(intent);
     }
 
 
@@ -153,8 +142,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
         if(v == bBack){
             //will open login activity
-     //       Intent intent = new Intent(Register.this, LoginActivety.class);
-      //      startActivity(intent);
+            Intent intent = new Intent(Register.this, LoginActivity.class);
+            startActivity(intent);
         }
     }
 }
