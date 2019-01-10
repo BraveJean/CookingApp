@@ -398,39 +398,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         result.put("steps", RStpe);
         FirebaseDatabase.getInstance().getReference().child("Recipes").child(recipeId).updateChildren(result);//update steps
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(RecipeDetailActivity.this);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent();
-                bundle = new Bundle();
-                bundle.putString("flag",Flag);
-                intent.putExtras(bundle);
-
-                if("1".equals(Flag)){
-                    intent.setClass(RecipeDetailActivity.this,SearchForAllActivity.class);
-                    startActivity(intent);
-                }else if("0".equals(Flag)){
-                    intent.setClass(RecipeDetailActivity.this,SearchForOneActivity.class);
-                    startActivity(intent);
-                }else{
-                    intent.setClass(RecipeDetailActivity.this,MenuActivity.class);
-                    startActivity(intent);
-                }
-
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.setTitle("Message");
-        builder.setMessage("Saved successfully,Do you want to leave this current page?");
-        builder.show();
+        Toast.makeText(RecipeDetailActivity.this, "Successed to saved.",Toast.LENGTH_LONG).show();
     }
 
 

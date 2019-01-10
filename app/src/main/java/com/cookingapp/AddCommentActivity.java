@@ -37,6 +37,7 @@ public class AddCommentActivity extends AppCompatActivity implements RatingBar.O
     private float RatingFinal;
     private String ratingString;
     private EditText EtComments;
+    private RatingBar ratingBar;
     private int CnR;
     private ArrayList<String> userIdList;
     private ArrayList<Rating> ratingList;
@@ -76,7 +77,7 @@ public class AddCommentActivity extends AppCompatActivity implements RatingBar.O
         recipeId = bundle.getString("recipeId");
 
         //Rating
-        RatingBar ratingBar = findViewById(R.id.ratingBar);
+        ratingBar = findViewById(R.id.ratingBar);
         ratingBar.setMax(5);//set the maximal score
         ratingBar.setProgress(0);//set the score now
         ratingBar.setOnRatingBarChangeListener(this);
@@ -95,22 +96,15 @@ public class AddCommentActivity extends AppCompatActivity implements RatingBar.O
                     AddComment();
                     //add into rating sheet
                     AddRating();
-                    Intent intent = new Intent();
-                    intent.putExtras(bundle);
-                    intent.setClass(AddCommentActivity.this,ShowCommentActivity.class);
-                    startActivity(intent);
                 }
                 else if( ("".equals(CommentsText)||CommentsText==null) && (!"".equals(ratingString)&& ratingString!=null)){ //No comment & rating
                     //add into rating sheet
                     AddRating();
-                    Intent intent = new Intent();
-                    intent.putExtras(bundle);
-                    intent.setClass(AddCommentActivity.this,ShowCommentActivity.class);
-                    startActivity(intent);
                 }
                 else if( (!"".equals(CommentsText)&& CommentsText!=null) && ("".equals(ratingString)||ratingString==null)){ //comment & No rating
                     //add into comment sheet
                     AddComment();
+
                     Intent intent = new Intent();
                     intent.putExtras(bundle);
                     intent.setClass(AddCommentActivity.this,ShowCommentActivity.class);
@@ -129,8 +123,9 @@ public class AddCommentActivity extends AppCompatActivity implements RatingBar.O
         cancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(AddCommentActivity.this, ShowCommentActivity.class);
+                Intent intent = new Intent();
+                intent.putExtras(bundle);
+                intent.setClass(AddCommentActivity.this, AddCommentActivity.class);
                 startActivity(intent);
 
             }
@@ -224,6 +219,11 @@ public class AddCommentActivity extends AppCompatActivity implements RatingBar.O
                     HashMap<String, Object> result = new HashMap<>();//store urlV into data
                     result.put("rating", rating);
                     FirebaseDatabase.getInstance().getReference().child("Recipes").child(recipeId).updateChildren(result);//update dataS
+
+                    Intent intent = new Intent();
+                    intent.putExtras(bundle);
+                    intent.setClass(AddCommentActivity.this,ShowCommentActivity.class);
+                    startActivity(intent);
                 }
             }
 
