@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:id="@+id/text_Id">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:gravity="center"
+                android:text="RecipeName:  "
+                android:textSize="18dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:gravity="center"
+                android:text="UserName:  "
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="114dp"
+                android:gravity="top|center"
+                android:text="Ingredients:  "
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="89dp"
+                android:layout_gravity="top"
+                android:gravity="top|center"
+                android:text="Steps:  "
+                android:textSize="18dp" />
+
+
+            <Button
+                android:id="@+id/butPic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Picture" />
+
+            <ImageView
+                android:id="@+id/imgView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:textSize="18dp"
+                android:id="@+id/recipeNameText"/>
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:textSize="18dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:textSize="18dp"
+                android:id="@+id/ingredient"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:textSize="18dp"
+                android:id="@+id/ingredientOne"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:textSize="18dp"
+                android:id="@+id/ingredientTwo"/>
+
+            <EditText
+                android:id="@+id/steps"
+                android:layout_width="match_parent"
+                android:layout_height="89dp"
+                android:layout_gravity="top"
+                android:foregroundGravity="top"
+                android:textSize="18dp" />
+
+            <Button
+                android:id="@+id/butVid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Video" />
+
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="158dp"
+                android:layout_gravity="right" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1339dp"
+        android:gravity="top"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/butGoBack"
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="50dp"
+        android:text="Go Back"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_Id"
+        app:layout_constraintVertical_bias="0.564" />
+
+    <TextView
+        android:id="@+id/butEdit"
+        android:layout_width="63dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="50dp"
+        android:text="Save"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_Id"
+        app:layout_constraintVertical_bias="0.55" />
+
+    <TextView
+        android:id="@+id/butViewCom"
+        android:layout_width="154dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="50dp"
+        android:text="View Comment"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_Id"
+        app:layout_constraintVertical_bias="0.55" />
+
+
+</android.support.constraint.ConstraintLayout>
