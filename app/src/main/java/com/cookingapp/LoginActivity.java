@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.nio.BufferUnderflowException;
+
 public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private EditText editTextEmail;
@@ -24,11 +26,14 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textViewRegist;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        bundle = this.getIntent().getExtras();
 
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
@@ -37,6 +42,14 @@ public class LoginActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.loginTextEmail);
         editTextPassword = findViewById(R.id.loginTextPassword);
         textViewRegist = findViewById(R.id.textViewRegiste);
+
+        if(bundle != null ){
+            String email = bundle.getString("address");
+            if(email != null && !"".equals(email)){
+                editTextEmail.setText(email);
+            }
+
+        }
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

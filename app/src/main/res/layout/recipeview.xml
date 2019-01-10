@@ -17,35 +17,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/recipeName"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recipesNameText"/>
+            android:layout_height="38dp"
+            android:textSize="18dp"
+            android:id="@+id/recipeNameText"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Email"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
+            android:textSize="18dp"
             android:id="@+id/userName"/>
 
-        <Button
-            android:id="@+id/checkDetial"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:text="@string/check" />
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:text="@string/delete" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+
+            <Button
+                android:id="@+id/checkDetial"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Detail" />
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/delete" />
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,8 +75,8 @@
         <ImageView
             android:id="@+id/image"
             android:scaleType="fitXY"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
 
     </LinearLayout>
 

@@ -25,7 +25,8 @@
         <activity android:name=".SearchForAllActivity" />
         <activity android:name=".NewRecipesActivity" />
         <activity android:name=".SearchForOneActivity" />
-        <activity android:name=".SaveImageActivity" />
+        <activity android:name=".ShowCommentActivity" />
+        <activity android:name=".AddCommentActivity"></activity>
     </application>
 
 </manifest>
